@@ -45,6 +45,17 @@ class Encrypter {
 	}
 
 	/**
+	 * Checks for mcrypt support and throws if it's missing
+	 */
+	protected function checkMcryptSupport()
+	{
+		if ( ! extension_loaded('mcrypt'))
+		{
+			throw new \Exception('Mcrypt PHP extension required to use original Laravel 4.2 Encrypter');
+		}
+	}
+
+	/**
 	 * Encrypt the given value.
 	 *
 	 * @param  string  $value
@@ -52,6 +63,8 @@ class Encrypter {
 	 */
 	public function encrypt($value)
 	{
+		$this->checkMcryptSupport();
+
 		$iv = mcrypt_create_iv($this->getIvSize(), $this->getRandomizer());
 
 		$value = base64_encode($this->padAndMcrypt($value, $iv));
@@ -86,6 +99,8 @@ class Encrypter {
 	 */
 	public function decrypt($payload)
 	{
+		$this->checkMcryptSupport();
+
 		$payload = $this->getJsonPayload($payload);
 
 		// We'll go ahead and remove the PKCS7 padding from the encrypted value before
