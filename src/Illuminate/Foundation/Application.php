@@ -550,20 +550,6 @@ class Application extends Container implements HttpKernelInterface, TerminableIn
 	}
 
 	/**
-	 * Register a function for determining when to use array sessions.
-	 *
-	 * @param  \Closure  $callback
-	 * @return void
-	 */
-	public function useArraySessions(Closure $callback)
-	{
-		$this->bind('session.reject', function() use ($callback)
-		{
-			return $callback;
-		});
-	}
-
-	/**
 	 * Determine if the application has booted.
 	 *
 	 * @return bool
@@ -652,12 +638,7 @@ class Application extends Container implements HttpKernelInterface, TerminableIn
 	 */
 	protected function getStackedClient()
 	{
-		$sessionReject = $this->bound('session.reject') ? $this['session.reject'] : null;
-
-		$client = (new Builder)
-                    ->push('Illuminate\Cookie\Guard', $this['encrypter'])
-                    ->push('Illuminate\Cookie\Queue', $this['cookie'])
-                    ->push('Illuminate\Session\Middleware', $this['session'], $sessionReject);
+		$client = new Builder;
 
 		$this->mergeCustomMiddlewares($client);
 
@@ -773,11 +754,6 @@ class Application extends Container implements HttpKernelInterface, TerminableIn
 			if ( ! is_null($response)) return $this->prepareResponse($response, $request);
 		}
 
-		if ($this->runningUnitTests() && ! $this['session']->isStarted())
-		{
-			$this['session']->start();
-		}
-
 		return $this['router']->dispatch($this->prepareRequest($request));
 	}
 
@@ -845,11 +821,6 @@ class Application extends Container implements HttpKernelInterface, TerminableIn
 	 */
 	public function prepareRequest(Request $request)
 	{
-		if ( ! is_null($this['config']['session.driver']) && ! $request->hasSession())
-		{
-			$request->setSession($this['session']->driver());
-		}
-
 		return $request;
 	}
 
@@ -1112,7 +1083,6 @@ class Application extends Container implements HttpKernelInterface, TerminableIn
 			'cache'          => 'Illuminate\Cache\CacheManager',
 			'cache.store'    => 'Illuminate\Cache\Repository',
 			'config'         => 'Illuminate\Config\Repository',
-			'cookie'         => 'Illuminate\Cookie\CookieJar',
 			'encrypter'      => 'Illuminate\Encryption\Encrypter',
 			'db'             => 'Illuminate\Database\DatabaseManager',
 			'events'         => 'Illuminate\Events\Dispatcher',
@@ -1130,8 +1100,6 @@ class Application extends Container implements HttpKernelInterface, TerminableIn
 			'redis'          => 'Illuminate\Redis\Database',
 			'request'        => 'Illuminate\Http\Request',
 			'router'         => 'Illuminate\Routing\Router',
-			'session'        => 'Illuminate\Session\SessionManager',
-			'session.store'  => 'Illuminate\Session\Store',
 			'remote'         => 'Illuminate\Remote\RemoteManager',
 			'url'            => 'Illuminate\Routing\UrlGenerator',
 			'validator'      => 'Illuminate\Validation\Factory',
