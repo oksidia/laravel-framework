@@ -11,17 +11,7 @@ class EncryptionServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		$this->app->bindShared('encrypter', function($app)
-		{
-			$encrypter =  new Encrypter($app['config']['app.key']);
-
-			if ($app['config']->has('app.cipher'))
-			{
-				$encrypter->setCipher($app['config']['app.cipher']);
-			}
-
-			return $encrypter;
-		});
+		throw new \Exception("Deprecated");
 	}
 
 }
