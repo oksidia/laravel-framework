@@ -1,6 +1,5 @@
 <?php namespace Illuminate\Foundation\Console;
 
-use Boris\Boris;
 use Illuminate\Console\Command;
 
 class TinkerCommand extends Command {
@@ -26,42 +25,7 @@ class TinkerCommand extends Command {
 	 */
 	public function fire()
 	{
-		if ($this->supportsBoris())
-		{
-			$this->runBorisShell();
-		}
-		else
-		{
-			$this->comment('Full REPL not supported. Falling back to simple shell.');
-
-			$this->runPlainShell();
-		}
-	}
-
-	/**
-	 * Run the Boris REPL with the current context.
-	 *
-	 * @return void
-	 */
-	protected function runBorisShell()
-	{
-		$this->setupBorisErrorHandling();
-
-		(new Boris('> '))->start();
-	}
-
-	/**
-	 * Setup the Boris exception handling.
-	 *
-	 * @return void
-	 */
-	protected function setupBorisErrorHandling()
-	{
-		restore_error_handler(); restore_exception_handler();
-
-		$this->laravel->make('artisan')->setCatchExceptions(false);
-
-		$this->laravel->error(function() { return ''; });
+		$this->runPlainShell();
 	}
 
 	/**
@@ -114,16 +78,6 @@ class TinkerCommand extends Command {
 		$dialog = $this->getHelperSet()->get('dialog');
 
 		return $dialog->ask($this->output, "<info>></info>", null);
-	}
-
-	/**
-	 * Determine if the current environment supports Boris.
-	 *
-	 * @return bool
-	 */
-	protected function supportsBoris()
-	{
-		return extension_loaded('readline') && extension_loaded('posix') && extension_loaded('pcntl');
 	}
 
 }
