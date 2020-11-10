@@ -3,7 +3,6 @@
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Composer;
 use Illuminate\View\Engines\CompilerEngine;
-use ClassPreloader\Command\PreCompileCommand;
 use Symfony\Component\Console\Input\InputOption;
 
 class OptimizeCommand extends Command {
@@ -62,9 +61,10 @@ class OptimizeCommand extends Command {
 
 		if ($this->option('force') || ! $this->laravel['config']['app.debug'])
 		{
-			$this->info('Compiling common classes');
+			$this->info('Skipping compilation of classes');
 
-			$this->compileClasses();
+			// $this->info('Compiling common classes');
+			// $this->compileClasses();
 
 			$this->info('Compiling views');
 
@@ -83,15 +83,7 @@ class OptimizeCommand extends Command {
 	 */
 	protected function compileClasses()
 	{
-		$this->registerClassPreloaderCommand();
-
-		$outputPath = $this->laravel['path.base'].'/bootstrap/compiled.php';
-
-		$this->callSilent('compile', array(
-			'--config' => implode(',', $this->getClassFiles()),
-			'--output' => $outputPath,
-			'--strip_comments' => 1,
-		));
+		throw new \Exception('compileClasses() is not in use');
 	}
 
 	/**
@@ -115,7 +107,7 @@ class OptimizeCommand extends Command {
 	 */
 	protected function registerClassPreloaderCommand()
 	{
-		$this->getApplication()->add(new PreCompileCommand);
+		// $this->getApplication()->add(new PreCompileCommand);
 	}
 
 	/**
