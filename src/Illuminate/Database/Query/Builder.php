@@ -331,7 +331,7 @@ class Builder {
 	 * Add a "join where" clause to the query.
 	 *
 	 * @param  string  $table
-	 * @param  string  $one
+	 * @param  string|\Closure  $one
 	 * @param  string  $operator
 	 * @param  string  $two
 	 * @param  string  $type
@@ -346,7 +346,7 @@ class Builder {
 	 * Add a left join to the query.
 	 *
 	 * @param  string  $table
-	 * @param  string  $first
+	 * @param  string|\Closure  $first
 	 * @param  string  $operator
 	 * @param  string  $second
 	 * @return \Illuminate\Database\Query\Builder|static
@@ -360,7 +360,7 @@ class Builder {
 	 * Add a "join where" clause to the query.
 	 *
 	 * @param  string  $table
-	 * @param  string  $one
+	 * @param  string|\Closure  $one
 	 * @param  string  $operator
 	 * @param  string  $two
 	 * @return \Illuminate\Database\Query\Builder|static
@@ -374,7 +374,7 @@ class Builder {
 	 * Add a right join to the query.
 	 *
 	 * @param  string  $table
-	 * @param  string  $first
+	 * @param  string|\Closure  $first
 	 * @param  string  $operator
 	 * @param  string  $second
 	 * @return \Illuminate\Database\Query\Builder|static
@@ -388,7 +388,7 @@ class Builder {
 	 * Add a "right join where" clause to the query.
 	 *
 	 * @param  string  $table
-	 * @param  string  $one
+	 * @param  string|\Closure  $one
 	 * @param  string  $operator
 	 * @param  string  $two
 	 * @return \Illuminate\Database\Query\Builder|static
