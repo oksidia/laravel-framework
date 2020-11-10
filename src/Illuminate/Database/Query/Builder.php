@@ -402,7 +402,7 @@ class Builder {
 	 * Add a basic where clause to the query.
 	 *
 	 * @param  string|\Closure  $column
-	 * @param  string  $operator
+	 * @param  mixed  $operator Operator or value with an implicit '=' operator
 	 * @param  mixed|\Closure   $value
 	 * @param  string  $boolean
 	 * @return $this
@@ -488,8 +488,8 @@ class Builder {
 	 * Add an "or where" clause to the query.
 	 *
 	 * @param  string|\Closure  $column
-	 * @param  string  $operator
-	 * @param  mixed   $value
+	 * @param  mixed  $operator Operator or value with an implicit '=' operator
+	 * @param  mixed  $value
 	 * @return \Illuminate\Database\Query\Builder|static
 	 */
 	public function orWhere($column, $operator = null, $value = null)
