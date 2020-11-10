@@ -293,7 +293,7 @@ class Builder {
 	 * Add a join clause to the query.
 	 *
 	 * @param  string  $table
-	 * @param  string  $one
+	 * @param  string|\Closure  $one
 	 * @param  string  $operator
 	 * @param  string  $two
 	 * @param  string  $type
@@ -401,9 +401,9 @@ class Builder {
 	/**
 	 * Add a basic where clause to the query.
 	 *
-	 * @param  string  $column
+	 * @param  string|\Closure  $column
 	 * @param  string  $operator
-	 * @param  mixed   $value
+	 * @param  mixed|\Closure   $value
 	 * @param  string  $boolean
 	 * @return $this
 	 *
@@ -487,7 +487,7 @@ class Builder {
 	/**
 	 * Add an "or where" clause to the query.
 	 *
-	 * @param  string  $column
+	 * @param  string|\Closure  $column
 	 * @param  string  $operator
 	 * @param  mixed   $value
 	 * @return \Illuminate\Database\Query\Builder|static
@@ -1011,7 +1011,7 @@ class Builder {
 	/**
 	 * Add a "group by" clause to the query.
 	 *
-	 * @param  array|string  $column,...
+	 * @param  array|string  ...$column
 	 * @return $this
 	 */
 	public function groupBy()
