@@ -2,19 +2,6 @@
 
 /*
 |--------------------------------------------------------------------------
-| Set PHP Error Reporting Options
-|--------------------------------------------------------------------------
-|
-| Here we will set the strictest error reporting options, and also turn
-| off PHP's error reporting, since all errors will be handled by the
-| framework and we don't want any output leaking back to the user.
-|
-*/
-
-error_reporting(-1);
-
-/*
-|--------------------------------------------------------------------------
 | Register Class Imports
 |--------------------------------------------------------------------------
 |
