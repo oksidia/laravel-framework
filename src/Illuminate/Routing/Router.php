@@ -953,7 +953,7 @@ class Router implements HttpKernelInterface, RouteFiltererInterface {
 		// IoC container instance and call the appropriate methods on the class.
 		$d = $this->getControllerDispatcher();
 
-		return function() use ($d, $controller)
+		return function(...$args) use ($d, $controller)
 		{
 			$route = $this->current();
 
