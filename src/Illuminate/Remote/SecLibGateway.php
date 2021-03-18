@@ -1,6 +1,7 @@
 <?php namespace Illuminate\Remote;
 
 use Illuminate\Filesystem\Filesystem;
+use phpseclib3\Crypt\Common\AsymmetricKey;
 use phpseclib3\Crypt\RSA;
 use phpseclib3\Net\SFTP;
 use phpseclib3\System\SSH\Agent;
@@ -172,7 +173,7 @@ class SecLibGateway implements GatewayInterface {
 	/**
 	 * Get the authentication object for login.
 	 *
-	 * @return RSA|Agent|string
+	 * @return AsymmetricKey|Agent|string
 	 * @throws \InvalidArgumentException|\Illuminate\Filesystem\FileNotFoundException
 	 */
 	protected function getAuthForLogin()
@@ -214,14 +215,15 @@ class SecLibGateway implements GatewayInterface {
 	 * Load the RSA key instance.
 	 *
 	 * @param array $auth
-	 * @return RSA
+	 * @return AsymmetricKey
 	 * @throws \Illuminate\Filesystem\FileNotFoundException
 	 */
 	protected function loadRsaKey(array $auth)
 	{
-		with($key = $this->getKey($auth))->loadKey($this->readRsaKey($auth));
+		$key = $this->readRsaKey($auth);
+		$passphrase = $auth['keyphrase'] ?? false;
 
-		return $key;
+		return RSA::load($key, $passphrase);
 	}
 
 	/**
@@ -236,19 +238,6 @@ class SecLibGateway implements GatewayInterface {
 		if (isset($auth['key'])) return $this->files->get($auth['key']);
 
 		return $auth['keytext'];
-	}
-
-	/**
-	 * Create a new RSA key instance.
-	 *
-	 * @param  array  $auth
-	 * @return RSA
-	 */
-	protected function getKey(array $auth)
-	{
-		with($key = $this->getNewKey())->setPassword(array_get($auth, 'keyphrase'));
-
-		return $key;
 	}
 
 	/**
@@ -269,16 +258,6 @@ class SecLibGateway implements GatewayInterface {
 	public function getAgent()
 	{
 		return new Agent();
-	}
-
-	/**
-	 * Get a new RSA key instance.
-	 *
-	 * @return RSA
-	 */
-	public function getNewKey()
-	{
-		return RSA::createKey();
 	}
 
 	/**
