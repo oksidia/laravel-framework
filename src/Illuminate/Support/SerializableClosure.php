@@ -52,7 +52,9 @@ class SerializableClosure extends SuperClosure {
 	{
 		if ( ! $this->code)
 		{
-			list($this->code, $this->variables) = unserialize($this->serialize());
+			$result = unserialize($this->serialize());
+			$this->code = $result['code'] ?? null;
+			$this->variables = $result['context'] ?? null;
 		}
 	}
 
