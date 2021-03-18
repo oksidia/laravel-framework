@@ -16,7 +16,6 @@
         "jeremeamia/superclosure": "^2.0",
         "monolog/monolog": "~1.6",
         "nesbot/carbon": "~1.0",
-        "patchwork/utf8": "~1.1",
         "phpseclib/phpseclib": "^3.0",
         "predis/predis": "0.8.*",
         "stack/builder": "~1.0",
@@ -33,7 +32,8 @@
         "symfony/routing": "^3.0",
         "symfony/security-core": "^3.0",
         "symfony/translation": "^3.0",
-        "symfony/options-resolver": "^3.0"
+        "symfony/options-resolver": "^3.0",
+        "ext-intl": "*"
     },
     "replace": {
         "illuminate/auth": "self.version",

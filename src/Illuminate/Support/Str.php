@@ -36,7 +36,7 @@ class Str {
 	 */
 	public static function ascii($value)
 	{
-		return Utf8::toAscii($value);
+		return transliterator_transliterate('Any-Latin; Latin-ASCII', $value);
 	}
 
 	/**
