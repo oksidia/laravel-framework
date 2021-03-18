@@ -1,6 +1,6 @@
 <?php namespace Illuminate\Support;
 
-use SuperClosure\SerializableClosure as SuperClosure;
+use Opis\Closure\SerializableClosure as SuperClosure;
 
 /**
  * Extends SuperClosure for backwards compatibility.
@@ -53,8 +53,8 @@ class SerializableClosure extends SuperClosure {
 		if ( ! $this->code)
 		{
 			$result = unserialize($this->serialize());
-			$this->code = $result['code'] ?? null;
-			$this->variables = $result['context'] ?? null;
+			$this->code = $result['function'] ?? null;
+			$this->variables = $result['use'] ?? null;
 		}
 	}
 
